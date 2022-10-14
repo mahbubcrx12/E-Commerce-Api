@@ -57,10 +57,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     var request = http.MultipartRequest("POST", link);
     request.headers.addAll(await CustomHttp().getHeadersWithToken());
     request.fields["name"] = nameController.text.toString();
-    var iconPhoto = await http.MultipartFile.fromPath("icon", icon!.path);
-    request.files.add(iconPhoto);
-    var imagePhoto = await http.MultipartFile.fromPath("image", image!.path);
-    request.files.add(imagePhoto);
+    var imageFile = await http.MultipartFile.fromPath("image", image!.path);
+    request.files.add(imageFile);
+    var iconFile = await http.MultipartFile.fromPath("icon", icon!.path);
+    request.files.add(iconFile);
     setState(() {
       onProgress = true;
     });
@@ -68,11 +68,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     setState(() {
       onProgress = false;
     });
-    var responceData = await responce.stream.toBytes();
-    var responceString = String.fromCharCodes(responceData);
-    var data = jsonDecode(responceString);
-    print("responce string issssssssssssss$data");
-    if (responce.statusCode == 201) {
+    var responceDataByte = await responce.stream.toBytes();
+    var responceDataString = String.fromCharCodes(responceDataByte);
+    var data = jsonDecode(responceDataString);
+    if (responce.statusCode == 200) {
       showInToast("${data["message"]}");
       Navigator.of(context).pop();
     } else {
@@ -80,38 +79,12 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     }
   }
 
-  // Future createCategory() async {
-  //   var link = Uri.parse("${baseUrl}api/admin/category/store");
-  //   var request = http.MultipartRequest("POST", link);
-  //   request.headers.addAll(await CustomHttp().getHeadersWithToken());
-  //   request.fields["name"] = nameController.text.toString();
-  //   var imageFile = await http.MultipartFile.fromBytes(field, value);
-  //   request.files.add(imageFile);
-  //   var iconFile = await http.MultipartFile.fromString("icon", icon!.path);
-  //   request.files.add(iconFile);
-  //   setState(() {
-  //     onProgress = true;
-  //   });
-  //   var responce = await request.send();
-  //   setState(() {
-  //     onProgress = false;
-  //   });
-  //   var responceDataByte = await responce.stream.toBytes();
-  //   var responceDataString = String.fromCharCodes(responceDataByte);
-  //   var data = jsonDecode(responceDataString);
-  //   if (responce.statusCode == 200) {
-  //     showInToast("${data["message"]}");
-  //     Navigator.of(context).pop();
-  //   } else {
-  //     showInToast("${data["message"]}");
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: Color(0xFF642E4C),
           centerTitle: true,
@@ -226,6 +199,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                             showInToast("please upload category image");
                           } else {
                             createCategory();
+                            Navigator.of(context).pop();
                           }
                         }
                       },

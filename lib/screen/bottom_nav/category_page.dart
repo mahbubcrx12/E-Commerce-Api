@@ -4,6 +4,7 @@ import 'package:e_commerce_api/screen/edit_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:e_commerce_api/api_service/custom_api.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -76,12 +77,18 @@ class _CategoryPageState extends State<CategoryPage> {
                                   ),
                                 ),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     InkWell(
                                       onTap: () {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
-                                                builder: (_) => EditCategoryPage(categoryModel: categoryList[index],)));
+                                                builder: (_) =>
+                                                    EditCategoryPage(
+                                                      categoryModel:
+                                                          categoryList[index],
+                                                    )));
                                       },
                                       child: Container(
                                         height: 30,
@@ -96,7 +103,41 @@ class _CategoryPageState extends State<CategoryPage> {
                                           style: TextStyle(color: Colors.white),
                                         )),
                                       ),
-                                    )
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        CustomHttp().deleteCategoryItem(context,
+                                                categoryList[index].id!.toInt())
+                                            .then((value) => () {
+                                                  setState(() {
+                                                    categoryList
+                                                        .removeAt(index);
+                                                    Navigator.pop(context);
+                                                  
+                                                  });
+                                                });
+
+                                        // CustomHttp().deleteCategoryItem(context,
+                                        //     categoryList[index].id!.toInt());
+                                        // Navigator.of(context).pop();
+                                        // setState(() {
+                                        //   categoryList.removeAt(index);
+                                        // });
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                            color: Colors.redAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Center(
+                                            child: Text(
+                                          "Delete",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                      ),
+                                    ),
                                   ],
                                 )
                               ],
