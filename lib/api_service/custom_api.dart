@@ -1,3 +1,5 @@
+
+//API Link:-https://docs.google.com/spreadsheets/d/1OMOBaIqeZjKzIdFQ0YnhqwemMae1_eW7Ae6utL0FYWw/edit?fbclid=IwAR0eUvMFnhOa1IaOUt4h5vhAUHy7p6xAYiU8hSqiUXsGSjz1MdANGelGupY#gid=0
 import 'dart:convert';
 import 'package:e_commerce_api/model/category_model.dart';
 import 'package:e_commerce_api/model/order_model.dart';
@@ -32,15 +34,14 @@ class CustomHttp{
 
   }
 
-static Future<Map<String,String>> getHeadersWithToken()async{
+ Future<Map<String,String>> getHeadersWithToken()async{
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     var header={
       "Accept":"application/json",
       "Authorization":"bearer ${sharedPreferences.getString("token")}"
     };
-    print("ttttttttttttt is ${sharedPreferences.getString("token")}");
     return header;
-}
+} 
 
   Future<List<OrderModel>> fetchOrder()async{
     List<OrderModel> orderList=[];
@@ -93,4 +94,8 @@ static Future<Map<String,String>> getHeadersWithToken()async{
      return categoryList;
     }
   }
+
+  
+
+
 }

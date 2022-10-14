@@ -2,13 +2,11 @@ import 'dart:convert';
 import 'package:e_commerce_api/screen/bottom_nav/bottom_nav.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:e_commerce_api/api_service/custom_api.dart';
-import 'package:e_commerce_api/screen/home_page.dart';
 import 'package:e_commerce_api/widget/const.dart';
 import 'package:e_commerce_api/widget/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:e_commerce_api/api_service/custom_api.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -33,13 +31,10 @@ class _LoginpageState extends State<Loginpage> {
     if (sharedPreferences.getString("token") != null) {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (_) => BottomNavPage()));
-
     }
-
   }
 
   getLogin() async {
-
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -61,11 +56,10 @@ class _LoginpageState extends State<Loginpage> {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => BottomNavPage()));
       }
-      print("kkkkkkkkkkk$data");
+      print("tttttttttttttt$data");
     } catch (e) {
       print(e);
     }
-
   }
 
   @override
